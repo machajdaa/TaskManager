@@ -1,1 +1,6 @@
-<p>confirm-dialog works!</p>
+<h2 mat-dialog-title>Potvrzení</h2>
+<mat-dialog-content>{{ message }}</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Zrušit</button>
+    <button mat-button color="warn" (click)="onConfirm()">Smazat</button>
+</mat-dialog-actions>

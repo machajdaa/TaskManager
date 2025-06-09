@@ -4,6 +4,7 @@ import { Task, TaskPriority, TaskStatus } from '../../task.model';
 import { TaskService } from '../../../core/services/task.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,11 +15,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class TaskFormComponent implements OnInit{
   form!: FormGroup;
+  taskId?: number;
 
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService,
     private router: Router,
+    private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {}
 
@@ -28,6 +31,14 @@ export class TaskFormComponent implements OnInit{
         priority: [TaskPriority.Medium, Validators.required],
         status: [TaskStatus.Todo, Validators.required]
       });
+
+      const idParam = this.route.snapshot.paramMap.get('id');
+      if(idParam) {
+        this.taskId = +idParam;
+        this.taskService.getTask(this.taskId).subscribe( task => {
+          this.form.patchValue(task);
+        })
+      }
   }
 
   onSubmit(): void {
@@ -38,14 +49,18 @@ export class TaskFormComponent implements OnInit{
       completed_at: this.form.value.status === TaskStatus.Done ? new Date().toISOString() : null
     };
 
-    this.taskService.createTask(newTask).subscribe({
+    const action = this.taskId
+      ? this.taskService.updateTask(this.taskId, newTask)
+      : this.taskService.createTask(newTask);
+
+    action.subscribe({
       next: () => {
-        this.snackBar.open('Úkol byl úspěšně vytvořen', 'Zavřít', { duration: 3000 });
+        this.snackBar.open(this.taskId ? 'Úkol byl aktualizován' : 'Úkol byl úspěšně vytvořen', 'Zavřít', { duration: 3000 });
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.snackBar.open('Chyba při vytváření úkolu', 'Zavřít', { duration: 3000 });
+        this.snackBar.open('Nastala chyba při úkládání úkolu', 'Zavřít', { duration: 3000 });
       }
-    })
+    });
   }
 }

@@ -1,29 +1,63 @@
 <div class="p-4">
-    <table mat-table [dataSource]="tasks" class="mat-elevation-z2 w-full">
+
+    <div class="flex justify-evenly items-center max-sm:flex-col gap-4 mb-4">
+
+        <mat-form-field appearance="fill" class="sm:s-1/2 mb-4 h-20">
+            <mat-label>Vyhledávání</mat-label>
+            <input matInput (input)="onSearch($event)" placeholder="Zadej název úkolu">
+        </mat-form-field>
+
+    
+        <mat-form-field appearance="fill" class="h-20">
+            <mat-label>Filtr - Stav</mat-label>
+            <mat-select [(ngModel)] = "selectedStatus" (selectionChange)="onFilterChange()">
+                <mat-option [value]="null">Všechny</mat-option>
+                <mat-option [value]="1">ToDo</mat-option>
+                <mat-option [value]="2">Probíhá</mat-option>
+                <mat-option [value]="3">Hotovo</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="h-20">
+            <mat-label>Filtr - Priorita</mat-label>
+            <mat-select [(ngModel)]="selectedPriority" (selectionChange)="onFilterChange()">
+                <mat-option [value]="null">Všechny</mat-option>
+                <mat-option [value]="1">Nízká</mat-option>
+                <mat-option [value]="2">Střední</mat-option>
+                <mat-option [value]="3">Vysoká</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary">
+            Přidat úkol
+        </button>
+    </div>
+
+    <table mat-table [dataSource]="tasks" matSort (matSortChange)="onSortChange($event)" class="mat-elevation-z2 w-full">
 
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Název</th>
-            <tr mat-cell *matCellDef="let task">{{ task.name }}</tr>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Název</th>
+            <tr mat-cell *matCellDef="let task" class="font-bold">{{ task.name }}</tr>
         </ng-container>
 
         <ng-container matColumnDef="priority">
-            <th mat-header-cell *matHeaderCellDef>Priorita</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Priorita</th>
             <td mat-cell *matCellDef="let task">
                 <mat-select [(value)]="task.priority" (selectionChange)="updateTask(task)">
-                    <mat-option [value]="1">Nízká</mat-option>
-                    <mat-option [value]="2">Střední</mat-option>
-                    <mat-option [value]="3">Vysoká</mat-option>
+                    <mat-option [value]="TaskPriority.Low">{{ getPriorityText(TaskPriority.Low) }}</mat-option>
+                    <mat-option [value]="TaskPriority.Medium">{{ getPriorityText(TaskPriority.Medium) }}</mat-option>
+                    <mat-option [value]="TaskPriority.High">{{ getPriorityText(TaskPriority.High) }}</mat-option>
                 </mat-select>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Stav</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Stav</th>
             <td mat-cell *matCellDef="let task">
                 <mat-select [(value)]="task.status" (selectionChange)="updateTask(task)">
-                    <mat-option [value]="1">ToDO</mat-option>
-                    <mat-option [value]="2">Probíhá</mat-option>
-                    <mat-option [value]="3">Hotovo</mat-option>
+                    <mat-option [value]="TaskStatus.Todo">{{ getStatusText(TaskStatus.Todo) }}</mat-option>
+                    <mat-option [value]="TaskStatus.InProgress">{{ getStatusText(TaskStatus.InProgress) }}</mat-option>
+                    <mat-option [value]="TaskStatus.Done">{{ getStatusText(TaskStatus.Done) }}</mat-option>
                 </mat-select>
             </td>
         </ng-container>

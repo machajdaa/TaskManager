@@ -2,7 +2,10 @@ import { Component, OnInit} from '@angular/core';
 import { Task } from '../../task.model';
 import { TaskService } from '../../../core/services/task.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TaskStatus } from '../../task.model';
+import { TaskStatus, TaskPriority } from '../../task.model';
+import { Sort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -19,8 +22,20 @@ export class TaskListComponent implements OnInit{
   itemsPerPage = 10;
   totalItems = 100;
 
+  searchTerm = '';
+
+  selectedStatus: number | null = null;
+  selectedPriority: number | null = null;
+
+  TaskStatus = TaskStatus;
+  TaskPriority = TaskPriority;
+
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' | '' = '';
+
   constructor(private taskService: TaskService,
-              private snackBar: MatSnackBar
+              private snackBar: MatSnackBar,
+              private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -30,8 +45,19 @@ export class TaskListComponent implements OnInit{
   loadTasks(): void {
     const params = {
       page: this.currentPage,
-      perPage: this.itemsPerPage
+      perPage: this.itemsPerPage,
+      search: this.searchTerm,
+      status: this.selectedStatus,
+      priority: this.selectedPriority,
+      sort: this.sortColumn,
+      direction: this.sortDirection
     };
+
+    if(this.searchTerm) params.search = this.searchTerm;
+    if(this.selectedStatus !== null) params.status = this.selectedStatus;
+    if(this.selectedPriority !== null) params.priority = this.selectedPriority;
+
+
 
     this.taskService.getTasks(params).subscribe(response => {
       this.tasks = response.data;
@@ -39,15 +65,18 @@ export class TaskListComponent implements OnInit{
     });
   }
 
-  onPageChange(event: any): void {
-    this.currentPage = event.pageIndex + 1;
-    this.itemsPerPage = event.pageSize;
-    this.loadTasks();
-  }
-
   deleteTask(id: number): void {
-    this.taskService.deleteTask(id).subscribe(() => {
-      this.loadTasks();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: 'Opravdu chceš smazat tento úkol?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.taskService.deleteTask(id).subscribe(() => {
+          this.loadTasks();
+          this.snackBar.open('Úkol byl smazán', 'Zavřít', {duration: 3000});
+        });
+      }
     });
   }
 
@@ -77,11 +106,44 @@ export class TaskListComponent implements OnInit{
     });
   }
 
+  onPageChange(event: any): void {
+    this.currentPage = event.pageIndex + 1;
+    this.itemsPerPage = event.pageSize;
+    this.loadTasks();
+  }
+
+  onSearch(event: Event): void {
+    const input = event.target as HTMLInputElement
+    this.searchTerm = input.value;
+    this.currentPage = 1;
+    this.loadTasks();
+  }
+
+  onFilterChange(): void {
+    this.currentPage = 1;
+    this.loadTasks();
+  }
+
+  onSortChange(event: Sort): void {
+    this.sortColumn = event.active;
+    this.sortDirection = event.direction;
+    this.loadTasks();
+  }
+
+  //funkce pro překlady enumu
   getPriorityText(priority: number): string {
-    return ['Neznámá', 'Nízká', 'Střední', 'Vysoká'][priority] || '';
+    return {
+      [TaskPriority.Low]: 'Nízká',
+      [TaskPriority.Medium]: 'Střední',
+      [TaskPriority.High]: 'Vysoká'
+    }[priority] ?? 'Neznámá';
   }
 
   getStatusText(status: number): string {
-    return ['Neznámý', 'ToDo', 'Probíhá', 'Hotovo'][status] || '';
+    return {
+      [TaskStatus.Todo]: 'Todo',
+      [TaskStatus.InProgress]: 'Probíhá',
+      [TaskStatus.Done]: 'Hotovo'
+    }[status] ?? 'Neznámý';
   }
 }
