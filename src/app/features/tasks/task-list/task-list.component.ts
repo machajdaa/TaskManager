@@ -152,7 +152,7 @@ export class TaskListComponent implements OnInit{
   getStatusText(status: number): string {
     return {
       [TaskStatus.Todo]: 'STATUS.TODO',
-      [TaskStatus.InProgress]: 'STATUS.INPROGRESS',
+      [TaskStatus.InProgress]: 'STATUS.IN_PROGRESS',
       [TaskStatus.Done]: 'STATUS.DONE'
     }[status] ?? 'STATUS.UNKNOWN';
   }
