@@ -1,0 +1,59 @@
+{
+  "TASK": {
+    "NAME": "Task name",
+    "PRIORITY": "Priority",
+    "STATUS": "Status",
+    "ACTIONS": "Actions",
+    "DELETE_CONFIRM": "Are you sure you want to delete this task?",
+    "DELETED": "Task was deleted",
+    "UPDATED": "Task was updated",
+    "NOT_UPDATED": "Error while updating the task",
+    "NOT_SAVED": "Error while saving the task",
+    "CREATED": "Task was successfully created",
+    "ERROR": "An error occurred"
+  },
+  "GENERAL": {
+    "CONFIRM": "Confirmation",
+    "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "CLOSE": "Close",
+    "DELETE": "Delete"
+  },
+  "TASK_LIST": {
+    "SEARCH_PLACEHOLDER": "Enter task name",
+    "FILTER_STATUS": "Filter - Status",
+    "FILTER_PRIORITY": "Filter - Priority",
+    "ADD_TASK": "Add task",
+    "NAME": "Name",
+    "PRIORITY": "Priority",
+    "STATUS": "Status",
+    "ACTIONS": "Actions"
+  },
+  "STATUS": {
+    "VSE": "All",
+    "TODO": "ToDo",
+    "IN_PROGRESS": "In progress",
+    "DONE": "Done",
+    "UKNOWN": "Unknown"
+  },
+  "PRIORITY": {
+    "VSE": "All",
+    "LOW": "Low",
+    "MEDIUM": "Medium",
+    "HIGH": "High",
+    "UKNOWN": "Unknown"
+  },
+  "TASK_FORM": {
+    "NAME_REQUIRED": "Name is required",
+    "NAME_MIN": "Name must be at least 3 characters",
+    "NAME_MAX": "Name must be at most 30 characters"
+  },
+  "TASK_DETAIL": {
+    "TASK_NOT_FOUND": "Task not found",
+    "BACK": "Back",
+    "PRIORITY": "Priority:",
+    "STATUS": "Status:",
+    "CREATED_AT": "Created:",
+    "DONE": "Completed:"
+  }
+}

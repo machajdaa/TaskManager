@@ -6,6 +6,7 @@ import { TaskStatus, TaskPriority } from '../../task.model';
 import { Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class TaskListComponent implements OnInit{
 
   constructor(private taskService: TaskService,
               private snackBar: MatSnackBar,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -67,14 +69,17 @@ export class TaskListComponent implements OnInit{
 
   deleteTask(id: number): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: 'Opravdu chceš smazat tento úkol?'
+      data: this.translate.instant('TASK.DELETE_CONFIRM')
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.taskService.deleteTask(id).subscribe(() => {
           this.loadTasks();
-          this.snackBar.open('Úkol byl smazán', 'Zavřít', {duration: 3000});
+          this.snackBar.open(
+            this.translate.instant('TASK.DELETED'),
+            this.translate.instant('GENERAL.CLOSE'),
+            {duration: 3000});
         });
       }
     });
@@ -91,14 +96,19 @@ export class TaskListComponent implements OnInit{
 
     this.taskService.updateTask(task.id, task).subscribe({
       next: () => {
-        this.snackBar.open('Úkol byl úspěšně aktualizován', 'Zavřít', {
+        this.snackBar.open(
+        this.translate.instant('TASK.TASK_UPDATED'),
+        this.translate.instant('GENERAL.CLOSE'),
+        {
           duration: 3000,
           panelClass: ['bg-green-500', 'text-white']
         })
       },
-      error: (err) => {
-        console.error('Chyba při aktualizaci úkolu: ', err);
-        this.snackBar.open('Nepodařilo se uložit změny', 'Zavřít', {
+      error: () => {
+        this.snackBar.open(
+        this.translate.instant('TASK.NOT_UPDATED'),
+        this.translate.instant('GENERAL.CLOSE'),  
+        {
           duration: 3000,
           panelClass: ['bg-red-500', 'text-white']
         });
@@ -133,17 +143,17 @@ export class TaskListComponent implements OnInit{
   //funkce pro překlady enumu
   getPriorityText(priority: number): string {
     return {
-      [TaskPriority.Low]: 'Nízká',
-      [TaskPriority.Medium]: 'Střední',
-      [TaskPriority.High]: 'Vysoká'
-    }[priority] ?? 'Neznámá';
+      [TaskPriority.Low]: 'PRIORITY.LOW',
+      [TaskPriority.Medium]: 'PRIORITY.MEDIUM',
+      [TaskPriority.High]: 'PRIORITY.HIGH'
+    }[priority] ?? 'PRIORITY.UNKNOWN';
   }
 
   getStatusText(status: number): string {
     return {
-      [TaskStatus.Todo]: 'Todo',
-      [TaskStatus.InProgress]: 'Probíhá',
-      [TaskStatus.Done]: 'Hotovo'
-    }[status] ?? 'Neznámý';
+      [TaskStatus.Todo]: 'STATUS.TODO',
+      [TaskStatus.InProgress]: 'STATUS.INPROGRESS',
+      [TaskStatus.Done]: 'STATUS.DONE'
+    }[status] ?? 'STATUS.UNKNOWN';
   }
 }

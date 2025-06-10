@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Potvrzení</h2>
+<h2 mat-dialog-title>{{ 'GENERAL.CONFIRM' | translate }}</h2>
 <mat-dialog-content>{{ message }}</mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Zrušit</button>
-    <button mat-button color="warn" (click)="onConfirm()">Smazat</button>
+    <button mat-button (click)="onCancel()">{{ 'GENERAL.CANCEL' | translate }}</button>
+    <button mat-button color="warn" (click)="onConfirm()">{{ 'GENERAL.DELETE' | translate }}</button>
 </mat-dialog-actions>

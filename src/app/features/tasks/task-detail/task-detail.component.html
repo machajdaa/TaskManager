@@ -1,1 +1,33 @@
-<p>task-detail works!</p>
+<div class="max-w-xl mx-auto p-6">
+
+  <!-- Hláška pokud nenalezeno -->
+  <div *ngIf="notFound" class="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 p-4 rounded-xl">
+    <mat-icon class="mr-2 align-middle">error_outline</mat-icon>
+    {{ 'TASK_DETAIL.TASK_NOT_FOUND' | translate }}
+    <div class="mt-4">
+      <button mat-button color="primary" (click)="goBack()">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'TASK_DETAIL.BACK' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Zobrazení detailu -->
+  <div *ngIf="!notFound && task" class="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 text-gray-800 dark:text-white">
+    <h2 class="text-2xl font-bold mb-4">{{ task.name }}</h2>
+
+    <div class="space-y-2">
+      <p><span class="font-semibold">{{ 'TASK_DETAIL.PRIORITY' | translate }}</span> {{ getPriorityText(task.priority) }}</p>
+      <p><span class="font-semibold">{{ 'TASK_DETAIL.STATUS' | translate }}</span> {{ getStatusText(task.status) }}</p>
+      <p><span class="font-semibold">{{ 'TASK_DETAIL.CREATED_AT' | translate }}</span> {{ task.created_at | date: 'short' }}</p>
+      <p *ngIf="task.completed_at"><span class="font-semibold">{{ 'TASK_DETAIL.DONE' | translate }}</span> {{ task.completed_at | date: 'short' }}</p>
+    </div>
+
+    <div class="mt-6">
+      <button mat-flat-button color="primary" (click)="goBack()">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'TASK_DETAIL.BACK' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

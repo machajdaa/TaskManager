@@ -1,0 +1,59 @@
+{
+  "TASK": {
+    "NAME": "Název úkolu",
+    "PRIORITY": "Priorita",
+    "STATUS": "Stav",
+    "ACTIONS": "Akce",
+    "DELETE_CONFIRM": "Opravdu chceš smazat tento úkol?",
+    "DELETED": "Úkol byl smazán",
+    "UPDATED": "Úkol byl aktualizován",
+    "NOT_UPDATED": "Chyba při aktualizaci úkolu",
+    "NOT_SAVED": "Chyba při ukládání úkolu",
+    "CREATED": "Úkol byl úspěšně vytvořen",
+    "ERROR": "Nastala chyba"
+  },
+  "GENERAL": {
+    "CONFIRM": "Potvrzení",
+    "CANCEL": "Zrušit",
+    "SAVE": "Uložit",
+    "CLOSE": "Zavřít",
+    "DELETE": "Smazat"
+  },
+  "TASK_LIST": {
+    "SEARCH_PLACEHOLDER": "Zadej název úkolu",
+    "FILTER_STATUS": "Filtr - Stav",
+    "FILTER_PRIORITY": "Filtr - Priorita",
+    "ADD_TASK": "Přidat úkol",
+    "NAME": "Název",
+    "PRIORITY": "Priorita",
+    "STATUS": "Stav",
+    "ACTIONS": "Akce"
+  },
+  "STATUS": {
+    "VSE": "Vše",
+    "TODO": "ToDo",
+    "IN_PROGRESS": "Probíhá",
+    "DONE": "Hotovo",
+    "UKNOWN": "Neznámý"
+  },
+  "PRIORITY": {
+    "VSE": "Vše",
+    "LOW": "Nízká",
+    "MEDIUM": "Střední",
+    "HIGH": "Vysoká",
+    "UKNOWN": "Neznámá"
+  },
+  "TASK_FORM": {
+    "NAME_REQUIRED": "Název je povinný",
+    "NAME_MIN": "Název musí mít minimálně 3 znaky",
+    "NAME_MAX": "Název musí mít maxmálně 30 znaků"
+  },
+  "TASK_DETAIL": {
+    "TASK_NOT_FOUND": "Úkol nebyl nalezen",
+    "BACK": "Zpět",
+    "PRIORITY": "Priorita:",
+    "STATUS": "Stav:",
+    "CREATED_AT": "Vytvořeno:",
+    "DONE": "Dokončeno:"
+  }
+}

@@ -4,6 +4,7 @@ import { MaterialModule } from './material.module';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatTableModule } from '@angular/material/table';
 import {  MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ConfirmDialogComponent],
@@ -11,7 +12,8 @@ import {  MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     MaterialModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    TranslateModule
   ],
   exports: [
     ConfirmDialogComponent,

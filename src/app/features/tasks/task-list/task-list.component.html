@@ -1,69 +1,73 @@
-<div class="p-4">
+<div class="p-4 bg-white">
 
-    <div class="flex justify-evenly items-center max-sm:flex-col gap-4 mb-4">
+    <div class="flex justify-evenly items-center max-sm:flex-col gap-4 mb-4 !bg-white">
 
-        <mat-form-field appearance="fill" class="sm:s-1/2 mb-4 h-20">
-            <mat-label>Vyhledávání</mat-label>
-            <input matInput (input)="onSearch($event)" placeholder="Zadej název úkolu">
+        <mat-form-field appearance="fill" class="sm:s-1/2 h-20 !rounded-md overflow-hidden">
+            <mat-label>{{ 'TASK_LIST.SEARCH_PLACEHOLDER' | translate}}</mat-label>
+            <input matInput (input)="onSearch($event)" placeholder="{{ 'TASK_LIST.SEARCH_PLACEHOLDER' | translate}}" class="rounded-md">
         </mat-form-field>
 
     
         <mat-form-field appearance="fill" class="h-20">
-            <mat-label>Filtr - Stav</mat-label>
+            <mat-label>{{ 'TASK_LIST.FILTER_STATUS' | translate }}</mat-label>
             <mat-select [(ngModel)] = "selectedStatus" (selectionChange)="onFilterChange()">
-                <mat-option [value]="null">Všechny</mat-option>
-                <mat-option [value]="1">ToDo</mat-option>
-                <mat-option [value]="2">Probíhá</mat-option>
-                <mat-option [value]="3">Hotovo</mat-option>
+                <mat-option [value]="null">{{ 'STATUS.VSE' | translate }}</mat-option>
+                <mat-option [value]="TaskStatus.Todo">{{ 'STATUS.TODO' | translate }}</mat-option>
+                <mat-option [value]="TaskStatus.InProgress">{{ 'STATUS.IN_PROGRESS' | translate }}</mat-option>
+                <mat-option [value]="TaskStatus.Done">{{ 'STATUS.DONE' | translate }}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="h-20">
-            <mat-label>Filtr - Priorita</mat-label>
+            <mat-label>{{ 'TASK_LIST.FILTER_PRIORITY' | translate }}</mat-label>
             <mat-select [(ngModel)]="selectedPriority" (selectionChange)="onFilterChange()">
-                <mat-option [value]="null">Všechny</mat-option>
-                <mat-option [value]="1">Nízká</mat-option>
-                <mat-option [value]="2">Střední</mat-option>
-                <mat-option [value]="3">Vysoká</mat-option>
+                <mat-option [value]="null">{{ 'PRIORITY.VSE' | translate }}</mat-option>
+                <mat-option [value]="TaskPriority.Low">{{ 'PRIORITY.LOW' | translate }}</mat-option>
+                <mat-option [value]="TaskPriority.Medium">{{ 'PRIORITY.MEDIUM' | translate }}</mat-option>
+                <mat-option [value]="TaskPriority.High">{{ 'PRIORITY.HIGH' | translate }}</mat-option>
             </mat-select>
         </mat-form-field>
 
-        <button mat-flat-button color="primary">
-            Přidat úkol
+        <button mat-flat-button routerLink="/new" color="primary">
+            {{ 'TASK_LIST.ADD_TASK' | translate }}
         </button>
     </div>
 
-    <table mat-table [dataSource]="tasks" matSort (matSortChange)="onSortChange($event)" class="mat-elevation-z2 w-full">
+    <table mat-table [dataSource]="tasks" matSort (matSortChange)="onSortChange($event)" class="mat-elevation-z2 w-full !bg-white">
 
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Název</th>
-            <tr mat-cell *matCellDef="let task" class="font-bold">{{ task.name }}</tr>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'TASK_LIST.NAME' | translate }}</th>
+            <td mat-cell *matCellDef="let task">
+                <a [routerLink]="['/detail/', task.id]" class="text-blue-600 hover:underline">
+                    {{ task.name }}
+                </a>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="priority">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Priorita</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'TASK_LIST.PRIORITY' | translate }}</th>
             <td mat-cell *matCellDef="let task">
                 <mat-select [(value)]="task.priority" (selectionChange)="updateTask(task)">
-                    <mat-option [value]="TaskPriority.Low">{{ getPriorityText(TaskPriority.Low) }}</mat-option>
-                    <mat-option [value]="TaskPriority.Medium">{{ getPriorityText(TaskPriority.Medium) }}</mat-option>
-                    <mat-option [value]="TaskPriority.High">{{ getPriorityText(TaskPriority.High) }}</mat-option>
+                    <mat-option [value]="TaskPriority.Low">{{ getPriorityText(TaskPriority.Low) | translate}}</mat-option>
+                    <mat-option [value]="TaskPriority.Medium">{{ getPriorityText(TaskPriority.Medium) | translate }}</mat-option>
+                    <mat-option [value]="TaskPriority.High">{{ getPriorityText(TaskPriority.High) | translate }}</mat-option>
                 </mat-select>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Stav</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'TASK_LIST.STATUS' | translate }}</th>
             <td mat-cell *matCellDef="let task">
                 <mat-select [(value)]="task.status" (selectionChange)="updateTask(task)">
-                    <mat-option [value]="TaskStatus.Todo">{{ getStatusText(TaskStatus.Todo) }}</mat-option>
-                    <mat-option [value]="TaskStatus.InProgress">{{ getStatusText(TaskStatus.InProgress) }}</mat-option>
-                    <mat-option [value]="TaskStatus.Done">{{ getStatusText(TaskStatus.Done) }}</mat-option>
+                    <mat-option [value]="TaskStatus.Todo">{{ getStatusText(TaskStatus.Todo) | translate }}</mat-option>
+                    <mat-option [value]="TaskStatus.InProgress">{{ getStatusText(TaskStatus.InProgress) | translate }}</mat-option>
+                    <mat-option [value]="TaskStatus.Done">{{ getStatusText(TaskStatus.Done) | translate }}</mat-option>
                 </mat-select>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Akce</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'TASK_LIST.ACTIONS' | translate }}</th>
             <td mat-cell *matCellDef="let task">
                 <button mat-icon-button color="primary" [routerLink]="['/edit', task.id]">
                     <mat-icon>edit</mat-icon>
@@ -82,6 +86,7 @@
         [length]="totalItems"
         [pageSize]="itemsPerPage"
         [pageIndex]="currentPage-1"
-        (page)="onPageChange($event)">
+        (page)="onPageChange($event)"
+        class="!bg-white">
     </mat-paginator>
 </div>

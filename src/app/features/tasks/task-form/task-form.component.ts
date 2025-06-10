@@ -1,10 +1,11 @@
-import { Component, OnInit, Sanitizer } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Task, TaskPriority, TaskStatus } from '../../task.model';
 import { TaskService } from '../../../core/services/task.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -17,12 +18,16 @@ export class TaskFormComponent implements OnInit{
   form!: FormGroup;
   taskId?: number;
 
+  TaskStatus = TaskStatus;
+  TaskPriority = TaskPriority;
+
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -55,11 +60,11 @@ export class TaskFormComponent implements OnInit{
 
     action.subscribe({
       next: () => {
-        this.snackBar.open(this.taskId ? 'Úkol byl aktualizován' : 'Úkol byl úspěšně vytvořen', 'Zavřít', { duration: 3000 });
+        this.snackBar.open(this.taskId ? this.translate.instant('TASK.UPDATED') : this.translate.instant('TASK.CREATED'), this.translate.instant('GENERAL.CLOSE'), { duration: 3000 });
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.snackBar.open('Nastala chyba při úkládání úkolu', 'Zavřít', { duration: 3000 });
+        this.snackBar.open(this.translate.instant('TASK.NOT_SAVED'), this.translate.instant('GENERAL.CLOSE'), { duration: 3000 });
       }
     });
   }

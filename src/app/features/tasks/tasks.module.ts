@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortHeader, MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -45,7 +46,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSortModule,
     MatSort,
     MatSortHeader,
-    MatDialogModule
+    MatDialogModule,
+    TranslateModule
   ]
 })
 export class TasksModule { }

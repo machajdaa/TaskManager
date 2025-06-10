@@ -1,43 +1,43 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 max-w-md mx-auto">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 max-w-md mx-auto mt-10 flex-col items-center">
 
     <!--Název úkolu-->
     <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Název úkolu</mat-label>
+        <mat-label>{{ 'TASK.NAME' | translate }}</mat-label>
         <input matInput formControlName="name" placeholder="Např. Vynést odpadky">
         <mat-error *ngIf="form.get('name')?.hasError('required')">
-            Název je povinný
+            {{ 'TASK_FORM.NAME_REQUIRED' | translate }}
         </mat-error>
         <mat-error *ngIf="form.get('name')?.hasError('minLength')">
-            Název musí mít alespoň 3 znaky
+            {{ 'TASK_FORM.NAME_MIN' | translate }}
         </mat-error>
         <mat-error *ngIf="form.get('name')?.hasError('maxLength')">
-            Název musí mí maximálně 30 znaků
+            {{ 'TASK_FORM.NAME_MAX' | translate }}
         </mat-error>
     </mat-form-field>
 
     <!--Priorita-->
     <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Priorita</mat-label>
+        <mat-label>{{ 'TASK_LIST.PRIORITY' | translate }}</mat-label>
         <mat-select formControlName="priority">
-            <mat-option [value]="1">Nízká</mat-option>
-            <mat-option [value]="2">Střední</mat-option>
-            <mat-option [value]="3">Vysoká</mat-option>
+            <mat-option [value]="TaskPriority.Low">{{ 'PRIORITY.LOW' | translate }}</mat-option>
+            <mat-option [value]="TaskPriority.Medium">{{ 'PRIORITY.MEDIUM' | translate }}</mat-option>
+            <mat-option [value]="TaskPriority.High">{{ 'PRIORITY.HIGH' | translate }}</mat-option>
         </mat-select>
     </mat-form-field>
 
     <!--Status-->
     <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Status</mat-label>
+        <mat-label>{{ 'TASK_LIST.STATUS' | translate }}</mat-label>
         <mat-select formControlName="status">
-            <mat-option [value]="1">ToDo</mat-option>
-            <mat-option [value]="2">Probíhá</mat-option>
-            <mat-option [value]="3">Hotovo</mat-option>
+            <mat-option [value]="TaskStatus.Todo">{{ 'STATUS.TODO' | translate }}</mat-option>
+            <mat-option [value]="TaskStatus.InProgress">{{ 'STATUS.IN_PROGRESS' | translate }}</mat-option>
+            <mat-option [value]="TaskStatus.Done">{{ 'STATUS.DONE' | translate }}</mat-option>
         </mat-select>
     </mat-form-field>
 
     <!--Odeslání-->
-    <button mat-flat-button color="primary" [disabled]="form.invalid">
-        Uložit úkol
+    <button mat-flat-button color="primary" [disabled]="form.invalid" class="mx-auto">
+        {{ 'GENERAL.SAVE' | translate }}
     </button>
 
 </form>
