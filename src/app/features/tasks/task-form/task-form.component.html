@@ -7,10 +7,10 @@
         <mat-error *ngIf="form.get('name')?.hasError('required')">
             {{ 'TASK_FORM.NAME_REQUIRED' | translate }}
         </mat-error>
-        <mat-error *ngIf="form.get('name')?.hasError('minLength')">
+        <mat-error *ngIf="form.get('name')?.hasError('minlength')">
             {{ 'TASK_FORM.NAME_MIN' | translate }}
         </mat-error>
-        <mat-error *ngIf="form.get('name')?.hasError('maxLength')">
+        <mat-error *ngIf="form.get('name')?.hasError('maxlength')">
             {{ 'TASK_FORM.NAME_MAX' | translate }}
         </mat-error>
     </mat-form-field>

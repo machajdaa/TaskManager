@@ -7,11 +7,11 @@ import { Task } from '../../features/task.model';
   providedIn: 'root'
 })
 export class TaskService {
-  private readonly apiUrl = '/assets/mock-tasks.json';
+  private readonly apiUrl = 'http://10.0.0.24:5282/api/task';
 
   constructor(private http: HttpClient) { }
 
-  getTasks(paramsObj?:any):Observable<{data: Task[], total: number}>{
+  getTasks(paramsObj?:any):Observable<{data: Task[], totalCount: number}>{
     let params = new HttpParams();
     if(paramsObj) {
       Object.keys(paramsObj).forEach(key => {
@@ -20,7 +20,7 @@ export class TaskService {
         }
       });
     }
-    return this.http.get<{data: Task[],total: number} >('/assets/mock-tasks.json', { params });
+    return this.http.get<{data: Task[],totalCount: number} >('http://10.0.0.24:5282/api/task/paged', { params });
   }
 
   getTask(id: number): Observable<Task> {

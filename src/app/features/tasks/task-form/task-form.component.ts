@@ -65,6 +65,7 @@ export class TaskFormComponent implements OnInit{
       },
       error: (err) => {
         this.snackBar.open(this.translate.instant('TASK.NOT_SAVED'), this.translate.instant('GENERAL.CLOSE'), { duration: 3000 });
+        console.log('Chyba:', err);
       }
     });
   }

@@ -45,27 +45,35 @@ export class TaskListComponent implements OnInit{
   }
 
   loadTasks(): void {
-    const params = {
-      page: this.currentPage,
-      perPage: this.itemsPerPage,
-      search: this.searchTerm,
-      status: this.selectedStatus,
-      priority: this.selectedPriority,
-      sort: this.sortColumn,
-      direction: this.sortDirection
-    };
+  const params: any = {
+    page: this.currentPage,
+    perPage: this.itemsPerPage
+  };
 
-    if(this.searchTerm) params.search = this.searchTerm;
-    if(this.selectedStatus !== null) params.status = this.selectedStatus;
-    if(this.selectedPriority !== null) params.priority = this.selectedPriority;
-
-
-
-    this.taskService.getTasks(params).subscribe(response => {
-      this.tasks = response.data;
-      this.totalItems = response.total
-    });
+  if (this.searchTerm?.trim()) {
+    params.search = this.searchTerm.trim();
   }
+
+  if (this.selectedStatus !== null) {
+    params.status = this.selectedStatus;
+  }
+
+  if (this.selectedPriority !== null) {
+    params.priority = this.selectedPriority;
+  }
+
+  if (this.sortColumn && this.sortDirection) {
+    params.sort = this.sortColumn;
+    params.direction = this.sortDirection;
+  }
+
+  console.log('Params odesílané do API:', params); // Pomocné ladění
+
+  this.taskService.getTasks(params).subscribe(response => {
+    this.tasks = response.data;
+    this.totalItems = response.totalCount;
+  });
+}
 
   deleteTask(id: number): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
