@@ -20,7 +20,7 @@ export class TaskService {
         }
       });
     }
-    return this.http.get<{data: Task[],totalCount: number} >('http://10.0.0.24:5282/api/task/paged', { params });
+    return this.http.get<{data: Task[],totalCount: number} >('/assets/mock-tasks.json', { params });
   }
 
   getTask(id: number): Observable<Task> {

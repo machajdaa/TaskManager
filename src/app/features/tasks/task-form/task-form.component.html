@@ -1,9 +1,9 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 max-w-md mx-auto mt-10 flex-col items-center">
 
     <!--Název úkolu-->
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>{{ 'TASK.NAME' | translate }}</mat-label>
-        <input matInput formControlName="name" placeholder="Např. Vynést odpadky">
+    <mat-form-field appearance="outline" class="w-full">
+        <label for="name" class="hidden">{{ 'TASK.NAME' | translate }}</label>
+        <input id="name" matInput formControlName="name" placeholder="{{ 'TASK.NAME' | translate }}">
         <mat-error *ngIf="form.get('name')?.hasError('required')">
             {{ 'TASK_FORM.NAME_REQUIRED' | translate }}
         </mat-error>
@@ -16,9 +16,9 @@
     </mat-form-field>
 
     <!--Priorita-->
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>{{ 'TASK_LIST.PRIORITY' | translate }}</mat-label>
-        <mat-select formControlName="priority">
+    <mat-form-field appearance="outline" class="w-full">
+        <label for="priority" class="hidden">{{ 'TASK_LIST.PRIORITY' | translate }}</label>
+        <mat-select id="priority" formControlName="priority" placeholder="{{ 'TASK_LIST.PRIORITY' | translate }}">
             <mat-option [value]="TaskPriority.Low">{{ 'PRIORITY.LOW' | translate }}</mat-option>
             <mat-option [value]="TaskPriority.Medium">{{ 'PRIORITY.MEDIUM' | translate }}</mat-option>
             <mat-option [value]="TaskPriority.High">{{ 'PRIORITY.HIGH' | translate }}</mat-option>
@@ -26,9 +26,9 @@
     </mat-form-field>
 
     <!--Status-->
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>{{ 'TASK_LIST.STATUS' | translate }}</mat-label>
-        <mat-select formControlName="status">
+    <mat-form-field appearance="outline" class="w-full">
+        <label for="status" class="hidden">{{ 'TASK_LIST.STATUS' | translate }}</label>
+        <mat-select id="status" formControlName="status" placeholder="{{ 'TASK_LIST.STATUS' | translate }}">
             <mat-option [value]="TaskStatus.Todo">{{ 'STATUS.TODO' | translate }}</mat-option>
             <mat-option [value]="TaskStatus.InProgress">{{ 'STATUS.IN_PROGRESS' | translate }}</mat-option>
             <mat-option [value]="TaskStatus.Done">{{ 'STATUS.DONE' | translate }}</mat-option>
@@ -36,8 +36,10 @@
     </mat-form-field>
 
     <!--Odeslání-->
-    <button mat-flat-button color="primary" [disabled]="form.invalid" class="mx-auto">
-        {{ 'GENERAL.SAVE' | translate }}
-    </button>
+    <div class="flex justify-center">
+        <button mat-flat-button color="primary" [disabled]="form.invalid" class="mx-auto !bg-black !text-white">
+            {{ 'GENERAL.SAVE' | translate }}
+        </button>
+    </div>
 
 </form>

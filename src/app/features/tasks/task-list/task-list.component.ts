@@ -63,7 +63,7 @@ export class TaskListComponent implements OnInit{
   }
 
   if (this.sortColumn && this.sortDirection) {
-    params.sort = this.sortColumn;
+    params.sortBy = this.sortColumn;
     params.direction = this.sortDirection;
   }
 
